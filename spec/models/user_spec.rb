@@ -15,13 +15,13 @@ RSpec.describe User, type: :model do
   end
 
   it 'destroys associated groups on delete' do
-    group = subject.groups.create(name: 'Test Group', icon: 'test')
+    subject.groups.create(name: 'Test Group', icon: 'test')
     subject.destroy
     expect(Group.count).to eq(0)
   end
 
   it 'destroys associated expenses on delete' do
-    expense = subject.expenses.create(name: 'Test Expense', amount: 10.0)
+    subject.expenses.create(name: 'Test Expense', amount: 10.0)
     expect { subject.destroy }.to change { Expense.count }.by(-1)
   end
 end
