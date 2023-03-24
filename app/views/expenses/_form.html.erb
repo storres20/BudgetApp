@@ -11,6 +11,21 @@
     </div>
   <% end %>
 
+  <%= form.hidden_field :user_id, value: current_user.id %>
+
+  <div class="mb-3">
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name, autofocus: true, placeholder: 'Add new transaction' %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :amount, style: "display: block" %>
+    <%= form.text_field :amount, autofocus: true, placeholder: 'Add amount' %>
+  </div>
+
+  <%= form.label :group_id %>
+    <%= form.select :group_id, options_for_select(Group.all.map { |g| [g.name, g.id] }), {}, class: "form-control" %>
+
   <div>
     <%= form.submit %>
   </div>

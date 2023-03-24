@@ -5,6 +5,13 @@
 
 <h1>Groups</h1>
 
+<div class="d-flex flex-row-reverse">
+  <%= link_to new_group_path, class: "btn btn-primary" do %>
+    <%= content_tag :i, nil, class: "bi bi-plus-circle-fill" %>
+    New group
+  <% end %>
+</div>
+
 <div id="groups">
   <% @groups.each do |group| %>
     <%= render group %>
@@ -13,5 +20,3 @@
     </p>
   <% end %>
 </div>
-
-<%= link_to "New group", new_group_path %>

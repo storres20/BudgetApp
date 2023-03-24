@@ -8,6 +8,6 @@ class SplashsController < ApplicationController
   def authenticate_login!
     return unless user_signed_in?
 
-    redirect_to groups_index_path
+    redirect_to groups_path
   end
 end

@@ -21,6 +21,7 @@ class ExpensesController < ApplicationController
   # POST /expenses or /expenses.json
   def create
     @expense = Expense.new(expense_params)
+    @expense.user = current_user # set the user for the expense
 
     respond_to do |format|
       if @expense.save
@@ -65,7 +66,8 @@ class ExpensesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def expense_params
-    params.fetch(:expense, {})
+    # params.fetch(:expense, {})
+    params.require(:expense).permit(:name, :amount, :group_id)
   end
 
   def authenticate_user!
