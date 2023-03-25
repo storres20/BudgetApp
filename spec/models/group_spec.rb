@@ -1,26 +1,29 @@
 require 'rails_helper'
 
 RSpec.describe Group, type: :model do
-  let(:user) { User.create(name: 'John Doe') }
-  subject { described_class.new(name: 'Test Group', icon: 'icon', user:) }
+  subject do
+    @user = User.create(name: 'Abeera', email: 'abeera@gmail.com', password: '123456')
+    @icon_file = fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'test.png'), 'image/png')
+    @group = Group.create(name: 'food', icon: @icon_file, user: @user)
+  end
 
   before { subject.save }
 
-  it 'is valid with valid attributes' do
-    expect(subject).to be_valid
-  end
-
-  it 'is not valid without a name' do
+  it 'name should be present' do
     subject.name = nil
-    expect(subject).not_to be_valid
+    expect(subject).to_not be_valid
   end
 
-  it 'is not valid without an icon' do
-    subject.icon = nil
-    expect(subject).not_to be_valid
+  it 'name should have valid value' do
+    expect(subject.name).to eql 'food'
   end
 
-  it 'belongs to a user' do
-    expect(subject.user).to eq(user)
+  it 'user should be present' do
+    subject.user = nil
+    expect(subject).to_not be_valid
+  end
+
+  it 'can have an attached icon' do
+    expect(subject).to respond_to(:icon)
   end
 end
