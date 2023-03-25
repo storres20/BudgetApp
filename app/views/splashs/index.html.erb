@@ -1,11 +1,12 @@
-<h1>Snapscan</h1>
-
-<div>
-  <%= link_to user_session_path, class: "btn btn-primary" do %>
-    LOG IN
-  <% end %>
+<section class="splash-screen">
+  <div class="welcome">
+    <h1>Budget App</h1>
+  </div>
   
-  <%= link_to new_user_registration_path, class: "btn btn-light" do %>
-    SIGN UP
-  <% end %>
-</div>
+  <%= render partial: "shared/flash2" %>
+
+  <div class="splash-btns">
+    <%= link_to new_user_session_path do %><button class="btn splash-login">LOG IN</button><% end %>
+    <%= link_to new_user_registration_path do %><button class="btn splash-signup">SIGN UP</button><% end %>
+  </div>
+</section>

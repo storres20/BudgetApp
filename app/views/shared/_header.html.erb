@@ -1,0 +1,16 @@
+<section class="header">
+  
+  <%= link_to user_signed_in? ? path : root_path, class: "text-white" do %>
+    <i class="bi bi-arrow-left" style="font-size: 1.5rem;"></i>
+  <% end %>
+  
+  <h1><%= heading %></h1>
+</section>
+
+<div class="d-flex flex-row-reverse mb-5">
+  <% if user_signed_in? %>
+    <%= button_to("Log Out", destroy_user_session_path, method: :delete, class: "btn btn-danger") %>
+  <% end %>
+</div>
+
+<%= render partial: "shared/flash2" %>

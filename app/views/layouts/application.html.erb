@@ -18,19 +18,6 @@
   </head>
 
   <body>
-    <% if user_signed_in? %>
-      <%= render partial: "shared/navbar" %>
-    <% end %>
-
-    <div class='container mt-5'>
-      <% if flash.any? %>
-        <% flash.each do |type, msg| %>
-          <div class="flash-notice flash-<%= type %>">
-            <h3 class="<%= type==='notice' ? 'bg-success' : 'bg-danger' %> text-white p-2"><%= msg %></h3>
-          </div>
-        <% end %>
-      <% end %>
-      <%= yield %>
-    </div>
+    <%= yield %>
   </body>
 </html>

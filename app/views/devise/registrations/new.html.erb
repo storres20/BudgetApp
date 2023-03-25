@@ -1,34 +1,29 @@
-<h2>Sign up</h2>
+<%= render partial: 'shared/header', locals: { heading: 'SIGN UP', path: request.path } %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form' }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field mb-3">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, autofocus: true, autocomplete: "name" %>
+  <div class="field">
+    <%= f.text_field :name, autofocus: true, autocomplete: "off", placeholder: "Name", class: "form-field" %>
   </div>
 
   <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <%= f.email_field :email, autofocus: false, autocomplete: "off", placeholder: "Email", class: "form-field" %>
   </div>
 
   <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
+    <%= f.password_field :password, autocomplete: "off", placeholder: "Password (6 characters minimum)", class: "form-field" %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirm Password", class: "form-field" %>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
+  <div class="actions checkbox-btn">
+    <%= f.submit "Sign up", class: "btn splash-login" %>
   </div>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<div class="form-links">
+  <%= render "devise/shared/links" %>
+</div>

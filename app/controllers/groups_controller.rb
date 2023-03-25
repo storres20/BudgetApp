@@ -1,78 +1,39 @@
 class GroupsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_group, only: %i[show edit update destroy]
+  before_action :set_user
 
-  # GET /groups or /groups.json
   def index
-    @groups = Group.all
+    @groups = @user.groups.all
   end
 
-  # GET /groups/1 or /groups/1.json
-  def show; end
-
-  # GET /groups/new
   def new
     @group = Group.new
   end
 
-  # GET /groups/1/edit
-  def edit; end
-
-  # POST /groups or /groups.json
   def create
     @group = Group.new(group_params)
-    @group.icon.attach(params[:group][:icon])
-
-    respond_to do |format|
-      if @group.save
-        format.html { redirect_to group_url(@group), notice: 'Group was successfully created.' }
-        format.json { render :show, status: :created, location: @group }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
-      end
+    @group.user = @user
+    if @group.save
+      redirect_to groups_path, notice: 'Category added successfully'
+    else
+      flash.now[:alert] = @group.errors.full_messages.first if @group.errors.any?
+      render :new, status: 400
     end
   end
 
-  # PATCH/PUT /groups/1 or /groups/1.json
-  def update
-    respond_to do |format|
-      if @group.update(group_params)
-        format.html { redirect_to group_url(@group), notice: 'Group was successfully updated.' }
-        format.json { render :show, status: :ok, location: @group }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /groups/1 or /groups/1.json
-  def destroy
-    @group.destroy
-
-    respond_to do |format|
-      format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+  def show
+    @group = Group.find(params[:id])
+    redirect_to groups_path, notice: 'You are not authorized to access this page!' unless @group.user == @user
+    @expenses = @group.expenses.order(created_at: :desc)
+    @total = @expenses.sum(:amount)
   end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_group
-    @group = Group.find(params[:id])
+  def set_user
+    @user = current_user
   end
 
-  # Only allow a list of trusted parameters through.
   def group_params
-    # params.fetch(:group, {})
-    params.require(:group).permit(:name, :icon, :user_id)
-  end
-
-  def authenticate_user!
-    return if user_signed_in?
-
-    redirect_to splashs_path, alert: 'You must be logged in to access this page'
+    params.require(:group).permit(:name, :icon)
   end
 end

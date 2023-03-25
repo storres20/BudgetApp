@@ -1,16 +1,19 @@
-<h2>Forgot your password?</h2>
+<%= render partial: 'shared/header', locals: { heading: 'FORGOT PASSWORD?', path: request.path } %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+<%= render 'shared/flash' %>
+
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: 'form' }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", class: "form-field" %>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
+  <div class="actions checkbox-btn">
+    <%= f.submit "Send me reset password instructions", class: "btn splash-login" %>
   </div>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<div class="form-links">
+  <%= render "devise/shared/links" %>
+</div>

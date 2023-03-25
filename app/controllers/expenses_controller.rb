@@ -1,78 +1,39 @@
 class ExpensesController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_expense, only: %i[show edit update destroy]
+  before_action :find_group
 
-  # GET /expenses or /expenses.json
-  def index
-    @expenses = Expense.all
-  end
-
-  # GET /expenses/1 or /expenses/1.json
-  def show; end
-
-  # GET /expenses/new
   def new
     @expense = Expense.new
   end
 
-  # GET /expenses/1/edit
-  def edit; end
-
-  # POST /expenses or /expenses.json
   def create
+    unless @group.user == current_user
+      return redirect_to groups_path, notice: 'You can only create expenses from your categories'
+    end
+
+    if expense_params[:group_ids].length == 1
+      return redirect_to new_group_expense_path(@group), alert: 'Must select at least one category'
+    end
+
     @expense = Expense.new(expense_params)
-    @expense.user = current_user # set the user for the expense
+    @expense.user = current_user
 
-    respond_to do |format|
-      if @expense.save
-        format.html { redirect_to expense_url(@expense), notice: 'Expense was successfully created.' }
-        format.json { render :show, status: :created, location: @expense }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @expense.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /expenses/1 or /expenses/1.json
-  def update
-    respond_to do |format|
-      if @expense.update(expense_params)
-        format.html { redirect_to expense_url(@expense), notice: 'Expense was successfully updated.' }
-        format.json { render :show, status: :ok, location: @expense }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @expense.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /expenses/1 or /expenses/1.json
-  def destroy
-    @expense.destroy
-
-    respond_to do |format|
-      format.html { redirect_to expenses_url, notice: 'Expense was successfully destroyed.' }
-      format.json { head :no_content }
+    if @expense.save
+      flash[:notice] = 'Transaction created successfully'
+      @redirect_group = Group.find(expense_params[:group_ids].at(1))
+      redirect_to @redirect_group
+    else
+      flash[:alert] = @expense.errors.full_messages.first if @expense.errors.any?
+      render :new, status: :unprocessable_entity
     end
   end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_expense
-    @expense = Expense.find(params[:id])
-  end
-
-  # Only allow a list of trusted parameters through.
   def expense_params
-    # params.fetch(:expense, {})
-    params.require(:expense).permit(:name, :amount, :group_id)
+    params.require(:expense).permit(:name, :amount, group_ids: [])
   end
 
-  def authenticate_user!
-    return if user_signed_in?
-
-    redirect_to splashs_path, alert: 'You must be logged in to access this page'
+  def find_group
+    @group = Group.find(params[:group_id])
   end
 end

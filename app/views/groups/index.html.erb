@@ -1,22 +1,34 @@
-<%# Navbar title %>
-<% content_for :navbar_title, "Groups - Categories" %>
+<%= render partial: 'shared/header', locals: { heading: 'CATEGORIES', path: groups_path } %>
 
-<p style="color: green"><%= notice %></p>
-
-<h1>Groups</h1>
-
-<div class="d-flex flex-row-reverse">
-  <%= link_to new_group_path, class: "btn btn-primary" do %>
-    <%= content_tag :i, nil, class: "bi bi-plus-circle-fill" %>
-    New group
-  <% end %>
-</div>
-
-<div id="groups">
-  <% @groups.each do |group| %>
-    <%= render group %>
-    <p>
-      <%= link_to "Show this group", group %>
-    </p>
-  <% end %>
+<div class="d-flex flex-column justify-content-between">
+  <div>
+    <% @groups.each do |group| %>
+      <ul class="mr-2">
+        <li class="card">
+          <%= link_to group_path(group), class: "flex-row" do %>
+            <div class="image">
+              <% if group.icon.attached?%>
+                <%= image_tag(group.icon) %>
+              <%else%>
+                <%= image_tag('group.png') %>
+              <%end%>
+            </div>
+            <div class="info">
+              <div class="name-amount">
+                <h3><%= group.name %></h3>
+                <h3>$<%= group.expenses.sum(:amount) %></h3>
+              </div>
+              <p><%= group.created_at.strftime("%d-%m-%Y") %></p>
+            </div>
+          <% end %>
+        </li>
+      </ul>
+    <% end %>
+  </div>
+  
+  <div class="btn-area">
+    <%= link_to new_group_path, class: "btn group-btn" do %>
+      Add new category
+    <% end %>
+  </div>
 </div>

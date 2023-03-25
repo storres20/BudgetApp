@@ -1,12 +1,9 @@
-<%# Navbar title %>
-<% content_for :navbar_title, "New Category" %>
+<%= render partial: 'shared/header', locals: { heading: 'ADD NEW CATEGORY', path: groups_path } %>
 
-<h1>New group</h1>
-
-<%= render "form", group: @group %>
-
-<br>
-
-<div>
-  <%= link_to "Back to groups", groups_path %>
-</div>
+<%= form_with model: @group, url: groups_path, local: true, class: 'form' do |f| %>
+  <%= f.text_field :name, autofocus: true, autocomplete: "off", placeholder: "Category Name", class: "form-field" %>
+  <div class="checkbox-btn">
+    <%= f.file_field :icon %>
+    <%= f.submit "Save", class: "btn splash-login" %>
+  </div>
+<% end %>
