@@ -8,6 +8,7 @@
     - [Tech Stack ](#tech-stack-)
     - [Key Features ](#key-features-)
   - [🚀 Live Demo ](#-live-demo-)
+  - [⏯ Video ](#-video-)
   - [💻 Getting Started ](#-getting-started-)
     - [Prerequisites](#prerequisites)
     - [Setup](#setup)
@@ -65,6 +66,13 @@ This is a mobile web application for managing BUDGETS. You can create new Catego
 ## 🚀 Live Demo <a name="live-demo"></a>
 
 - [Live Demo Link](https://budgetapp-xaqh.onrender.com/)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- VIDEO DEMO -->
+## ⏯ Video <a name="video-demo"></a>
+
+https://www.loom.com/share/3b1bdcb587374fca87131069065b6769
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
