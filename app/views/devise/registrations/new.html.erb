@@ -1,0 +1,29 @@
+<%= render partial: 'shared/header', locals: { heading: 'SIGN UP', path: request.path } %>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form' }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field">
+    <%= f.text_field :name, autofocus: true, autocomplete: "off", placeholder: "Name", class: "form-field" %>
+  </div>
+
+  <div class="field">
+    <%= f.email_field :email, autofocus: false, autocomplete: "off", placeholder: "Email", class: "form-field" %>
+  </div>
+
+  <div class="field">
+    <%= f.password_field :password, autocomplete: "off", placeholder: "Password (6 characters minimum)", class: "form-field" %>
+  </div>
+
+  <div class="field">
+    <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirm Password", class: "form-field" %>
+  </div>
+
+  <div class="actions checkbox-btn">
+    <%= f.submit "Sign up", class: "btn splash-login" %>
+  </div>
+<% end %>
+
+<div class="form-links">
+  <%= render "devise/shared/links" %>
+</div>

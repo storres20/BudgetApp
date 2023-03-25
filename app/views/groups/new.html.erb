@@ -1,0 +1,9 @@
+<%= render partial: 'shared/header', locals: { heading: 'ADD NEW CATEGORY', path: groups_path } %>
+
+<%= form_with model: @group, url: groups_path, local: true, class: 'form' do |f| %>
+  <%= f.text_field :name, autofocus: true, autocomplete: "off", placeholder: "Category Name", class: "form-field" %>
+  <div class="checkbox-btn">
+    <%= f.file_field :icon %>
+    <%= f.submit "Save", class: "btn splash-login" %>
+  </div>
+<% end %>

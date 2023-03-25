@@ -1,0 +1,35 @@
+<%= render partial: 'shared/header', locals: { heading: 'TRANSACTIONS', path: groups_path } %>
+
+<div class="card name-amount p-10">
+  <h3><%= @group.name %></h3>
+  <h3>$<%= @expenses.sum(:amount) %></h3>
+</div>
+
+<div class="">
+  <% @expenses.each do |expense| %>
+    <ul>
+      <li class="flex-row card">
+        <div class="image">
+          <% if @group.icon.attached?%>
+            <%= image_tag(@group.icon) %>
+          <%else%>
+            <%= image_tag('group.png') %>
+          <%end%>
+        </div>
+        <div class="info">
+          <div class="name-amount">
+            <h3><%= expense.name %></h3>
+            <h3>$<%= expense.amount %></h3>
+          </div>
+          <p><%= expense.created_at.strftime("%d-%m-%Y") %></p>
+        </div>
+      </li>
+    </ul>
+  <% end %>
+
+  <div class="btn-area">
+    <%= link_to new_group_expense_path(group_id: @group.id), class: "btn group-btn" do %>
+      Add new transaction
+    <% end %>
+  </div>
+</div>

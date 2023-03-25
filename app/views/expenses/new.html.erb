@@ -1,0 +1,20 @@
+<%= render partial: 'shared/header', locals: { heading: 'ADD NEW TRANSACTION', path: group_path(@group) } %>
+
+<%= form_with model: @expense, url: group_expenses_path, local: true do |f| %>
+  <%= f.text_field :name, autofocus: true, autocomplete: "off", placeholder: "Name", class: "form-field" %>
+  <%= f.number_field :amount, autofocus: false, autocomplete: "off", placeholder: "Amount", class: "form-field" %>
+  <div class="checkbox-btn">
+    <%= f.label :group_ids, "Select one or more categories:" %>
+    <div class="checkboxes">
+      <%= f.collection_check_boxes :group_ids, current_user.groups, :id, :name do |b| %>
+        <div>
+          <%= b.check_box %>
+          <%= b.label %>
+        </div>
+      <% end %>
+    </div>
+    
+
+    <%= f.submit "Save", class: "btn splash-login" %>
+  </div>
+<% end %>
